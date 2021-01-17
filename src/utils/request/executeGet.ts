@@ -1,7 +1,9 @@
 import handleFetchError from './handleFetchError';
 
-export default (request: RequestInfo): Promise<any> => (
-    fetch(request)
+const executeGet = (request: RequestInfo): Promise<any> => {
+    return fetch(request)
         .then(res => res.json())
-        .catch(handleFetchError)
-);
+        .catch(handleFetchError);
+};
+
+export default executeGet;
