@@ -1,9 +1,5 @@
 import React, { useEffect } from 'react';
 import Head from 'next/head';
-import { ThemeProvider } from 'contexts/theme';
-import Header from 'components/header';
-import Footer from 'components/footer';
-import NotificationList from 'components/notificationList';
 import store from 'stores';
 import { Provider } from 'react-redux';
 import { statusBarStyle } from 'config';
@@ -11,14 +7,14 @@ import { AppProps } from 'next/app';
 import 'styles/main.scss';
 
 export default function App({ Component, pageProps }: AppProps): JSX.Element {
-    useEffect(() => {
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register(
-                process.env.serviceWorkerUrl as string,
-                { scope: '/' }
-            );
-        }
-    }, []);
+    // useEffect(() => {
+    //     if ('serviceWorker' in navigator) {
+    //         navigator.serviceWorker.register(
+    //             process.env.serviceWorkerUrl as string,
+    //             { scope: '/' }
+    //         );
+    //     }
+    // }, []);
 
     return (
         <>
@@ -33,12 +29,9 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
                 <link rel="manifest" href="/manifest.json" />
             </Head>
             <Provider store={ store }>
-                <ThemeProvider>
-                    <NotificationList />
-                    <Header />
+                <div className="min-h-screen">
                     <Component { ...pageProps } />
-                    <Footer />
-                </ThemeProvider>
+                </div>
             </Provider>
         </>
     );
