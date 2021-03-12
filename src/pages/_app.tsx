@@ -1,3 +1,4 @@
+import {AuthProvider} from '@/contexts/user';
 import React, { useEffect } from 'react';
 import Head from 'next/head';
 import store from 'stores';
@@ -16,6 +17,8 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
     //     }
     // }, []);
 
+    const Layout = (Component as any).Layout || React.Fragment;
+
     return (
         <>
             <Head>
@@ -29,9 +32,13 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
                 <link rel="manifest" href="/manifest.json" />
             </Head>
             <Provider store={ store }>
-                <div className="min-h-screen">
-                    <Component { ...pageProps } />
-                </div>
+                <AuthProvider>
+                    <div className="min-h-screen">
+                        <Layout>
+                            <Component { ...pageProps } />
+                        </Layout>
+                    </div>
+                </AuthProvider>
             </Provider>
         </>
     );

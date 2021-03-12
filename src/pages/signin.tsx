@@ -1,7 +1,7 @@
 import {Button} from '@/components/Button';
 import {Input} from '@/components/Input';
 import {useAuth} from '@/contexts/user';
-import {SignupForm} from '@/model/User';
+import {LoginForm, SignupForm} from '@/model/User';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import React from 'react';
@@ -10,12 +10,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 const schema = yup.object().shape({
-    displayName: yup.string().required(),
     email: yup.string().email().required(),
     password: yup.string().min(6).required()
 });
 
-const SignUpPage = (): JSX.Element => {
+const SignInPage = (): JSX.Element => {
     const auth = useAuth();
     const router = useRouter();
 
@@ -23,9 +22,9 @@ const SignUpPage = (): JSX.Element => {
         resolver: yupResolver(schema)
     });
 
-    const onSubmit = async (data: SignupForm): Promise<void> => {
+    const onSubmit = async (data: LoginForm): Promise<void> => {
         try {
-            const user = await auth.signUp(data);
+            const user = await auth.signIn(data.email, data.password);
             console.log(user);
             await router.push('/dashboard');
         } catch (err) {
@@ -43,21 +42,13 @@ const SignUpPage = (): JSX.Element => {
                     </h2>
                     <p className="mt-2 text-center text-sm text-gray-600">
                         Or { ' ' }
-                        <Link href="/signin">
+                        <Link href="/signup">
                             sign in in you account
                         </Link>
                     </p>
                 </div>
                 <FormProvider { ...form }>
                     <form className="mt-8 space-y-4" onSubmit={ form.handleSubmit(onSubmit) }>
-                        <Input
-                          label="Full Name"
-                          id="full-name"
-                          placeholder="Jon"
-                          icon="mdi-account-outline"
-                          name="displayName"
-                        />
-
                         <Input
                           label="Email address"
                           id="email"
@@ -76,7 +67,7 @@ const SignUpPage = (): JSX.Element => {
 
                         <div>
                             <Button type="submit">
-                                Sign up
+                                Sign in
                             </Button>
                         </div>
                     </form>
@@ -86,5 +77,4 @@ const SignUpPage = (): JSX.Element => {
     );
 };
 
-export default SignUpPage;
-
+export default SignInPage;

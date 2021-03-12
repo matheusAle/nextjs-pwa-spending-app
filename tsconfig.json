@@ -22,7 +22,8 @@
     "isolatedModules": true,
     "paths": {
       "@/*": ["../src/*"]
-    }
+    },
+    "types": ["./src/types.d.ts"]
   },
   "include": [
     "src"

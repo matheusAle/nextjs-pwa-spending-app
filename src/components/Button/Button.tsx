@@ -1,10 +1,10 @@
 import React from 'react';
 
-export function Button(props: React.HTMLProps<any>): JSX.Element {
+export function Button(props: React.ButtonHTMLAttributes<any>): JSX.Element {
 
 
     return (
-        <button className={ props.className }>
+        <button { ...props }>
             { props.children }
         </button>
     );
